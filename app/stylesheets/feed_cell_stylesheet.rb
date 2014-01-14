@@ -14,4 +14,11 @@ module FeedCellStylesheet
     st.view.contentMode = UIViewContentModeScaleAspectFill
   end
 
+  def check(st)
+    st.frame = :full
+    st.hidden = true
+    st.background_color = color.translucent_black
+    st.clips_to_bounds = true
+  end
+
 end

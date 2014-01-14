@@ -84,9 +84,17 @@ class FeedController < UICollectionViewController
   def collectionView(view, didSelectItemAtIndexPath: index_path)
     cell = view.cellForItemAtIndexPath(index_path)
     entry = @entries[index_path.row]
-    ap entry["images"]["standard_resolution"]["url"]
-    data = NSData.dataWithContentsOfURL(NSURL.URLWithString(entry["images"]["standard_resolution"]["url"]))
-    @selected << UIImage.imageWithData(data)
+    url = entry["images"]["standard_resolution"]["url"]
+
+    if cell.chosen
+      cell.setChosen(false)
+      @selected.delete_if {|en| en["url"] == url}
+    else
+      cell.setChosen(true)
+      data = NSData.dataWithContentsOfURL(NSURL.URLWithString(url))
+      @selected << {"url" => url, "image" => UIImage.imageWithData(data)}
+    end
+    ap @selected.count
   end
 
   def createVideo
@@ -123,7 +131,8 @@ class FeedController < UICollectionViewController
 
     ap "starting write"
     ap "=========="
-    array.each do |img|
+    array.each do |entry|
+      img = entry["image"]
       buffer = pixelBufferFromCGImage(img.CGImage, size:@rect)
 
       append_ok = false
