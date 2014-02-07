@@ -168,6 +168,10 @@ class FeedController < UICollectionViewController
     videoWriter.finishWriting
     CVPixelBufferPoolRelease(adaptor.pixelBufferPool)
     ap "DONE"
+
+
+    controller = VideoPreviewController.new
+    self.navigationController.pushViewController(controller, animated: true)
   end
 
   def pixelBufferFromCGImage(image, size:imageSize)

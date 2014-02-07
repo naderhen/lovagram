@@ -5,6 +5,7 @@ require 'bundler'
 Bundler.require
 
 require 'ruby_motion_query'
+require 'motion-layout'
 
 Motion::Project::App.setup do |app|
 
